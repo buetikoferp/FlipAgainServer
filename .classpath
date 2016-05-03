@@ -2,5 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/libs/commons-cli-1.1.jar"/>
+	<classpathentry kind="lib" path="src/libs/commons-io-1.2.jar"/>
+	<classpathentry kind="lib" path="src/libs/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="src/libs/hamcrest-core.jar"/>
+	<classpathentry kind="lib" path="src/libs/junit.jar"/>
+	<classpathentry kind="lib" path="src/libs/postgresql-9.4.1208.jre6.jar"/>
+	<classpathentry kind="lib" path="src/libs/rabbitmq-client-tests.jar"/>
+	<classpathentry kind="lib" path="src/libs/rabbitmq-client.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
