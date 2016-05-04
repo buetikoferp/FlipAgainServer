@@ -59,7 +59,7 @@ public final class ServerMessager implements ServerReply{
 			System.out.println(u.getUsername() + " | " + u.getPassword());
 			LoginHandler.getAuthorization(u);
 		} else if(o instanceof Bundle){
-			dm.getBundle((Bundle)o);
+			
 		}
 		else if(o instanceof Module){
 			

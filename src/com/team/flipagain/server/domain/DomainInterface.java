@@ -15,7 +15,7 @@ public interface DomainInterface {
 	 */
 	public User validateUser(User user) throws SQLException;
 
-	public Bundle getBundle(Bundle bundle);
+	public Bundle getBundleByName(String bundleName);
 
 	public ArrayList<Bundle> getBundleList(Module modul) throws SQLException;
 
