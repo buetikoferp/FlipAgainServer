@@ -8,9 +8,11 @@ package com.team.flipagain.server.domain;
 public class Card {
     // ATTRIBUT
     private int cardId;
+    private int userId;
     private String question;
     private String answer;
     private int rating;
+    private int bundleId;
 
     /**
      *
@@ -19,14 +21,23 @@ public class Card {
      * @param answer
      * @param rating
      */
-    public Card(int cardId, String question, String answer, int rating){
+    public Card(int cardId, int userId, String question, String answer, int bundleId){
         this.cardId = cardId;
+        this.userId = userId;
         this.question = question;
         this.answer = answer;
-        this.rating = rating;
+        this.bundleId = bundleId;
     }
 
-    //GETTER SETTER
+    public int getBundleId() {
+		return bundleId;
+	}
+
+	public void setBundleId(int bundleId) {
+		this.bundleId = bundleId;
+	}
+
+	//GETTER SETTER
     public String getAnswer() {
         return answer;
     }

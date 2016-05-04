@@ -18,6 +18,7 @@ public class Bundle {
         this.bundleId = bundleId;
         this.name = name;
         this.userId = userId;
+        this.cardList = new ArrayList<>();
     }
 
     

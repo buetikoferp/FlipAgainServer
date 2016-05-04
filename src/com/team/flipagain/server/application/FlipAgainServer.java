@@ -1,8 +1,11 @@
 package com.team.flipagain.server.application;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.concurrent.TimeoutException;
 
+import com.team.flipagain.server.domain.DBManager;
+import com.team.flipagain.server.domain.Module;
 import com.team.flipagain.server.messaging.ServerConsumer;
 
 /**
@@ -12,7 +15,17 @@ public class FlipAgainServer {
 
 	public static void main(String args[]) {
 		ServerConsumer serverConsumer;
-		runCommunication();
+//		runCommunication();
+		
+		Module module = new Module(1, "Prog1");
+		
+		DBManager db = new DBManager();
+		try {
+			db.getBundleList(module);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

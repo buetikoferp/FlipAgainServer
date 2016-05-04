@@ -15,6 +15,7 @@ public class DBManager implements DomainInterface {
 
 	private Connection conn;
 	private Statement stmt;
+	private Statement stmt2;
 
 	public DBManager() {
 		startConnection();
@@ -25,7 +26,7 @@ public class DBManager implements DomainInterface {
 	 */
 	private void startConnection() {
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "flipagain");
+			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "Raffaele123");
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
@@ -98,15 +99,38 @@ public class DBManager implements DomainInterface {
 	public ArrayList<Bundle> getBundleList(Module module) throws SQLException {
 		int modulID = module.getModuleId();
 		Bundle bundle;
+		Card card;
 		ArrayList<Bundle> bundleList = new ArrayList<>();
+		
 		try {
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulID=" + modulID);
+			stmt2 = conn.createStatement();
+		
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulid= '" + modulID + "'");
+
 			while (rs.next()) {
-				bundle = new Bundle(rs.getInt("bundleId"), rs.getString("name"), rs.getInt("userId"));
+				bundle = new Bundle(rs.getInt("bundleid"), rs.getString("bundlename"), rs.getInt("userid"));
 				bundleList.add(bundle);
 
+				System.out.println(bundle.getName());
+				ResultSet rsCard = stmt2.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
+				for(Bundle b : bundleList){
+					while (rsCard.next()) {
+						
+						card = new Card(rsCard.getInt("cardid"), rsCard.getInt("userid"), rsCard.getString("question"),
+								rsCard.getString("answer"), rsCard.getInt("bundleid"));
+						System.out.println(card.getQuestion()+" | Antwort: "+card.getAnswer());
+						b.getCardList().add(card);
+					}
+				}
+
 			}
+			
+			
+			
+			
+
+			printResult(bundleList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -116,4 +140,18 @@ public class DBManager implements DomainInterface {
 		return bundleList;
 	}
 
+	public void printResult(ArrayList<Bundle> bundleList) {
+
+		for (Bundle bundle : bundleList) {
+
+			System.out.println("BundleName: " + bundle.getName());
+
+			for (int i = 0; i < bundle.getCardList().size(); i++) {
+				System.out.println("Frage:" + bundle.getCardList().get(i).getQuestion());
+				System.out.println("Antwort: " + bundle.getCardList().get(i).getAnswer());
+
+			}
+
+		}
+	}
 }
