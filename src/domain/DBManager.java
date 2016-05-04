@@ -9,11 +9,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- * Created by Philipp on 31.03.2016.
+ * Created by Philipp & Raffaele on 31.03.2016.
  */
 public class DBManager implements DomainInterface {
 
 	private Connection conn;
+	private Statement stmt;
 
 	public DBManager() {
 		startConnection();
@@ -36,27 +37,32 @@ public class DBManager implements DomainInterface {
 			System.out.println("Failed to make connection!");
 		}
 	}
-
+	
+	/**
+	 * Fragt die Datenbank nach dem gewünschten Bundle ab und retourniert dieses.
+	 */
 	@Override
 	public Bundle getBundle(Bundle bundle) {
 		bundle.getName();
 		int id = bundle.getBundleId();
-		Statement s = null;
-
 		try {
-			s = conn.createStatement();
-			s.executeQuery("SELECT * FROM tbl_bundle WHERE bundleId=" + id);
+			stmt = conn.createStatement();
+			stmt.executeQuery("SELECT * FROM tbl_bundle WHERE bundleId=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return bundle;
 	}
-
+	
+	
+	/**
+	 * Fragt die Datenbank nach dem übergebenen User-Objekt ab und setzt isAuthorized() auf true, sofern die Logindaten übereinstimmen.
+	 * @throws SQLException 
+	 */
 	@Override
-	public User validateUser(User user) {
+	public User validateUser(User user) throws SQLException {
 		String username = user.getUsername();
 		String password = user.getPassword();
-		Statement stmt = null;
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_user");
@@ -72,14 +78,36 @@ public class DBManager implements DomainInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		finally{
+			conn.close();
+		}
 
 		return user;
 	}
-
+	
+	/**
+	 * Filtert die Datenbank nach dem übergebenen Modul und füllt die Treffer in eine ArrayList ab
+	 * @throws SQLException 
+	 */
 	@Override
-	public ArrayList<String> getBundleList(String modul) {
+	public ArrayList<Bundle> getBundleList(Module module) throws SQLException {
+		int modulID = module.getModuleId();
+		Bundle bundle;
+		ArrayList<Bundle> bundleList = new ArrayList<>();
+		try{
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulID=" + modulID);
+			while(rs.next()){
+				
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		finally{
+			conn.close();
+		}
 			
-		return null;
+		return bundleList;
 	}
 
 }

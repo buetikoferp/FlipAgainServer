@@ -2,6 +2,7 @@ package messaging;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
@@ -22,10 +23,17 @@ public final class ServerMessager implements ServerReply{
 	ServerProducer serverProducer;
 	ServerConsumer serverConsumer;
 	
-	public void send(Serializable o) throws IOException, TimeoutException{
+	/**
+	 * Sendet das übergebene Objekt an den Client zurück
+	 * @param object
+	 * @throws IOException
+	 * @throws TimeoutException
+	 */
+	
+	public void send(Serializable object) throws IOException, TimeoutException{
 		try{
 			serverProducer = new ServerProducer("flipagain");
-			serverProducer.sendMessage(o);
+			serverProducer.sendMessage(object);
 		}catch(IOException e){
 			e.printStackTrace();
 		}catch(TimeoutException e){
@@ -37,11 +45,12 @@ public final class ServerMessager implements ServerReply{
 	}
 
 	/**
-	 * Ãœbergibt das gesendete Objekt.
+	 * Übergibt das gesendete Objekt.
 	 * 
 	 * @param messageObject
+	 * @throws SQLException 
 	 */
-	public void recievedObject(Object messageObject) {
+	public void recievedObject(Object messageObject){
 		this.messageObject = messageObject;
 		Object o = messageObject;
 		
@@ -52,8 +61,8 @@ public final class ServerMessager implements ServerReply{
 		} else if(o instanceof Bundle){
 			dm.getBundle((Bundle)o);
 		}
-		else if(o instanceof String){
-			dm.getBundleList((String) o);
+		else if(o instanceof Module){
+			
 		}
 
 	}

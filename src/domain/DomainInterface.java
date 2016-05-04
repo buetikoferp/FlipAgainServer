@@ -1,5 +1,6 @@
 package domain;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -10,11 +11,12 @@ public interface DomainInterface {
 	 *
 	 * @param user
 	 * @return
+	 * @throws SQLException 
 	 */
-	public User validateUser(User user);
+	public User validateUser(User user) throws SQLException;
 
 	public Bundle getBundle(Bundle bundle);
 
-	public ArrayList<String> getBundleList(String modul);
+	public ArrayList<Bundle> getBundleList(Module modul) throws SQLException;
 
 }

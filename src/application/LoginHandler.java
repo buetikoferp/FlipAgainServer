@@ -1,5 +1,7 @@
 package application;
 
+import java.sql.SQLException;
+
 import domain.DBManager;
 import domain.DomainInterface;
 import domain.User;
@@ -12,7 +14,11 @@ public final class LoginHandler {
 
 
     public static boolean getAuthorization(User user) {
-        user = di.validateUser(user);
+        try {
+			user = di.validateUser(user);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
         System.out.println(user.isAuthorized());
         return user.isAuthorized();
     }
