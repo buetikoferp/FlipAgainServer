@@ -1,4 +1,4 @@
-package domain;
+package com.team.flipagain.server.domain;
 
 /**
  * Created by Raffaele on 31.03.2016.

@@ -1,9 +1,9 @@
-package application;
+package com.team.flipagain.server.application;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import messaging.ServerConsumer;
+import com.team.flipagain.server.messaging.ServerConsumer;
 
 /**
  * Created by Philipp on 04.04.2016.

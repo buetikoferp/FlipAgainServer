@@ -1,10 +1,10 @@
-package application;
+package com.team.flipagain.server.application;
 
 import java.sql.SQLException;
 
-import domain.DBManager;
-import domain.DomainInterface;
-import domain.User;
+import com.team.flipagain.server.domain.DBManager;
+import com.team.flipagain.server.domain.DomainInterface;
+import com.team.flipagain.server.domain.User;
 
 /**
  * Created by Raffaele on 22.03.2016.

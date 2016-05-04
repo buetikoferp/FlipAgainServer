@@ -1,4 +1,4 @@
-package domain;
+package com.team.flipagain.server.domain;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

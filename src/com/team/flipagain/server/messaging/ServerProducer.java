@@ -1,4 +1,4 @@
-package messaging;
+package com.team.flipagain.server.messaging;
 
 /**
  * Created by Philipp on 01.04.2016.

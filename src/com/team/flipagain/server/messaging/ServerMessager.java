@@ -1,4 +1,4 @@
-package messaging;
+package com.team.flipagain.server.messaging;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
-import application.LoginHandler;
-import domain.Bundle;
-import domain.DBManager;
-import domain.DomainInterface;
-import domain.FieldOfStudy;
-import domain.Module;
-import domain.User;
+import com.team.flipagain.server.application.LoginHandler;
+import com.team.flipagain.server.domain.Bundle;
+import com.team.flipagain.server.domain.DBManager;
+import com.team.flipagain.server.domain.DomainInterface;
+import com.team.flipagain.server.domain.FieldOfStudy;
+import com.team.flipagain.server.domain.Module;
+import com.team.flipagain.server.domain.User;
 
 /**
  * Created by Philipp on 01.04.2016.
