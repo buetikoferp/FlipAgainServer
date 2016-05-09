@@ -15,10 +15,10 @@ public class FlipAgainServer {
 
 	public static void main(String args[]) {
 		ServerConsumer serverConsumer;
-//		runCommunication();
-		
+		// runCommunication();
+
 		Module module = new Module(1, "Prog1");
-		
+
 		DBManager db = new DBManager();
 		try {
 			db.getBundleList(module);

@@ -7,7 +7,7 @@ import com.team.flipagain.server.domain.User;
 
 public interface ServerReply {
 	
-	public void returnValidatedUser(User user);
+	public void returnValidatedUser();
 	public void returnBundlebyName(Bundle bundle);
 	public void returnFoS(FieldOfStudy fos);
 	public void returnModule(Module module);

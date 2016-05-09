@@ -10,13 +10,17 @@ public interface DomainInterface {
 	/**
 	 *
 	 * @param user
-	 * @return
-	 * @throws SQLException 
+	 * @param bundleName
+	 * @param modul
+	 * @param modulName
+	 * @throws SQLException
 	 */
 	public User validateUser(User user) throws SQLException;
 
 	public Bundle getBundleByName(String bundleName);
 
 	public ArrayList<Bundle> getBundleList(Module modul) throws SQLException;
+
+	public ArrayList<String> getBundleListByName(String moduleName) throws SQLException;
 
 }

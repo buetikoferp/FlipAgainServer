@@ -26,7 +26,7 @@ public class DBManager implements DomainInterface {
 	 */
 	private void startConnection() {
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "Raffaele123");
+			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "flipagain");
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
@@ -101,11 +101,11 @@ public class DBManager implements DomainInterface {
 		Bundle bundle;
 		Card card;
 		ArrayList<Bundle> bundleList = new ArrayList<>();
-		
+
 		try {
 			stmt = conn.createStatement();
 			stmt2 = conn.createStatement();
-		
+
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulid= '" + modulID + "'");
 
 			while (rs.next()) {
@@ -113,25 +113,23 @@ public class DBManager implements DomainInterface {
 				bundleList.add(bundle);
 
 				System.out.println(bundle.getName());
-				ResultSet rsCard = stmt2.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
-				for(Bundle b : bundleList){
+				ResultSet rsCard = stmt2
+						.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
+				for (Bundle b : bundleList) {
 					while (rsCard.next()) {
-						
+
 						card = new Card(rsCard.getInt("cardid"), rsCard.getInt("userid"), rsCard.getString("question"),
 								rsCard.getString("answer"), rsCard.getInt("bundleid"));
-						System.out.println(card.getQuestion()+" | Antwort: "+card.getAnswer());
+						System.out.println(card.getQuestion() + " | Antwort: " + card.getAnswer());
 						b.getCardList().add(card);
 					}
 				}
 
 			}
-			
-			
-			
-			
 
 			printResult(bundleList);
 		} catch (SQLException e) {
+			e.getMessage();
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -153,5 +151,39 @@ public class DBManager implements DomainInterface {
 			}
 
 		}
+	}
+	/**
+	 * Liefert eine Liste von allen BundleNamen des übergebeben Moduls.
+	 * @throws SQLException 
+	 * 
+	 */
+	@Override
+	public ArrayList<String> getBundleListByName(String moduleName) throws SQLException {
+		int modulId = 0;
+		ArrayList<String> bundleList = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_modul WHERE modulname='" + moduleName + "'");
+			while (rs.next()) {
+				modulId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			e.printStackTrace();
+
+			try {
+				stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_bundle WHERE modulId='" + modulId + "'");
+				while (rs.next()) {
+					bundleList.add(rs.getString(4));
+				}
+			} catch (SQLException q) {
+				q.getMessage();
+				q.printStackTrace();
+			}finally{
+				conn.close();
+			}
+		}
+		return bundleList;
 	}
 }
