@@ -5,8 +5,8 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.concurrent.TimeoutException;
 
+import com.sun.xml.internal.ws.resources.SenderMessages;
 import com.team.flipagain.server.domain.Bundle;
-import com.team.flipagain.server.domain.DBManager;
 import com.team.flipagain.server.domain.FieldOfStudy;
 import com.team.flipagain.server.domain.Module;
 
@@ -15,7 +15,6 @@ import com.team.flipagain.server.domain.Module;
  */
 public final class ServerMessager implements ServerReply {
 	private Object messageObject;
-	private DBManager dm = new DBManager();
 	private ServerProducer serverProducer;
 
 	/**
@@ -27,7 +26,7 @@ public final class ServerMessager implements ServerReply {
 	 */
 
 	public void send(Serializable object) throws IOException, TimeoutException {
-	
+		serverProducer.sendMessage(object);
 	}
 
 	/**
@@ -37,8 +36,7 @@ public final class ServerMessager implements ServerReply {
 	 * @throws SQLException
 	 */
 	public void recieveObject(Object messageObject) {
-		this.messageObject = messageObject;
-		Object o = messageObject;		
+		this.messageObject = messageObject;		
 	}
 
 	@Override
