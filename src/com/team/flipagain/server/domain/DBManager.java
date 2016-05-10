@@ -63,7 +63,7 @@ public class DBManager implements DomainInterface {
 	 * @throws SQLException
 	 */
 	@Override
-	public User validateUser(User user) throws SQLException {
+	public User validateUser(User user){
 		String username = user.getUsername();
 		String password = user.getPassword();
 		try {
@@ -80,8 +80,6 @@ public class DBManager implements DomainInterface {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 
 		return user;
@@ -94,7 +92,7 @@ public class DBManager implements DomainInterface {
 	 * @throws SQLException
 	 */
 	@Override
-	public ArrayList<Bundle> getBundleList(Module module) throws SQLException {
+	public ArrayList<Bundle> getBundleList(Module module){
 		int modulID = module.getModuleId();
 		Bundle bundle;
 		Card card;
@@ -129,8 +127,6 @@ public class DBManager implements DomainInterface {
 		} catch (SQLException e) {
 			e.getMessage();
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 
 		return bundleList;
@@ -160,7 +156,7 @@ public class DBManager implements DomainInterface {
 	 * 
 	 */
 	@Override
-	public ArrayList<String> getBundleListByName(String moduleName) throws SQLException {
+	public ArrayList<String> getBundleListByName(String moduleName){
 		int modulId = 0;
 		ArrayList<String> bundleList = new ArrayList<>();
 		try {
@@ -182,8 +178,6 @@ public class DBManager implements DomainInterface {
 			} catch (SQLException q) {
 				q.getMessage();
 				q.printStackTrace();
-			}finally{
-				conn.close();
 			}
 		}
 		return bundleList;
