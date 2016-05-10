@@ -48,19 +48,19 @@ public final class ServerMessager implements ServerReply {
 
 	@Override
 	public void returnBundlebyName(Bundle bundle) {
-		// TODO Auto-generated method stub
+	
 
 	}
 
 	@Override
 	public void returnFoS(FieldOfStudy fos) {
-		// TODO Auto-generated method stub
+	
 
 	}
 
 	@Override
 	public void returnModule(Module module) {
-		// TODO Auto-generated method stub
+	
 
 	}
 }
