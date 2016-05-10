@@ -3,7 +3,6 @@ package com.team.flipagain.server.domain;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
  * Created by Philipp & Raffaele on 31.03.2016.
  */
 public class DBManager implements DomainInterface {
-
 	private Connection conn;
 	private Statement stmt;
 	private Statement stmt2;
@@ -101,11 +99,11 @@ public class DBManager implements DomainInterface {
 		Bundle bundle;
 		Card card;
 		ArrayList<Bundle> bundleList = new ArrayList<>();
-		
+
 		try {
 			stmt = conn.createStatement();
 			stmt2 = conn.createStatement();
-		
+
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulid= '" + modulID + "'");
 
 			while (rs.next()) {
@@ -113,22 +111,19 @@ public class DBManager implements DomainInterface {
 				bundleList.add(bundle);
 
 				System.out.println(bundle.getName());
-				ResultSet rsCard = stmt2.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
-				for(Bundle b : bundleList){
+				ResultSet rsCard = stmt2
+						.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
+				for (Bundle b : bundleList) {
 					while (rsCard.next()) {
-						
+
 						card = new Card(rsCard.getInt("cardid"), rsCard.getInt("userid"), rsCard.getString("question"),
 								rsCard.getString("answer"), rsCard.getInt("bundleid"));
-						System.out.println(card.getQuestion()+" | Antwort: "+card.getAnswer());
+						System.out.println(card.getQuestion() + " | Antwort: " + card.getAnswer());
 						b.getCardList().add(card);
 					}
 				}
 
 			}
-			
-			
-			
-			
 
 			printResult(bundleList);
 		} catch (SQLException e) {
@@ -139,7 +134,11 @@ public class DBManager implements DomainInterface {
 
 		return bundleList;
 	}
-
+	
+	/**
+	 * 
+	 * @param bundleList
+	 */
 	public void printResult(ArrayList<Bundle> bundleList) {
 
 		for (Bundle bundle : bundleList) {
