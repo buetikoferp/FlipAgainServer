@@ -22,5 +22,11 @@ public interface DomainInterface {
 	public ArrayList<Bundle> getBundleList(Module modul) throws SQLException;
 
 	public ArrayList<String> getBundleListByName(String moduleName) throws SQLException;
+	
+	
+	
+	
+	
+	
 
 }

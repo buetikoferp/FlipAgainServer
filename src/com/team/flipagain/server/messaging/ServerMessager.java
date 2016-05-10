@@ -3,16 +3,12 @@ package com.team.flipagain.server.messaging;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
-import com.team.flipagain.server.application.LoginHandler;
 import com.team.flipagain.server.domain.Bundle;
 import com.team.flipagain.server.domain.DBManager;
-import com.team.flipagain.server.domain.DomainInterface;
 import com.team.flipagain.server.domain.FieldOfStudy;
 import com.team.flipagain.server.domain.Module;
-import com.team.flipagain.server.domain.User;
 
 /**
  * Created by Philipp on 01.04.2016.
@@ -60,13 +56,13 @@ public final class ServerMessager implements ServerReply {
 	public void returnValidatedUser() {
 		consumerThread = new Thread(serverConsumer);
 		consumerThread.start();
+		
 		try {
 			consumerThread.sleep(3000);
 			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
-		
+		} 
 
 	}
 
