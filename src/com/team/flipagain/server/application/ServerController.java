@@ -20,4 +20,10 @@ public class ServerController {
 		consumerThread = new Thread(serverConsumer);
 		consumerThread.start();
 	}
+	 public void validateUser(){
+		
+		 
+	 }
+	
+	
 }
