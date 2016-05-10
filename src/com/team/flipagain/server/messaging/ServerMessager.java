@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.concurrent.TimeoutException;
 
-import com.sun.xml.internal.ws.resources.SenderMessages;
 import com.team.flipagain.server.domain.Bundle;
 import com.team.flipagain.server.domain.FieldOfStudy;
 import com.team.flipagain.server.domain.Module;
@@ -36,7 +35,7 @@ public final class ServerMessager implements ServerReply {
 	 * @throws SQLException
 	 */
 	public void recieveObject(Object messageObject) {
-		this.messageObject = messageObject;		
+		this.messageObject = messageObject;
 	}
 
 	@Override
@@ -46,19 +45,16 @@ public final class ServerMessager implements ServerReply {
 
 	@Override
 	public void returnBundlebyName(Bundle bundle) {
-	
 
 	}
 
 	@Override
 	public void returnFoS(FieldOfStudy fos) {
-	
 
 	}
 
 	@Override
 	public void returnModule(Module module) {
-	
 
 	}
 }
