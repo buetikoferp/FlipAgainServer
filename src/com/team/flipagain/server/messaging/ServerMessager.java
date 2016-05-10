@@ -15,10 +15,8 @@ import com.team.flipagain.server.domain.Module;
  */
 public final class ServerMessager implements ServerReply {
 	private Object messageObject;
-	DBManager dm = new DBManager();
-	ServerProducer serverProducer;
-	ServerConsumer serverConsumer;
-	Thread consumerThread;
+	private DBManager dm = new DBManager();
+	private ServerProducer serverProducer;
 
 	/**
 	 * Sendet das übergebene Objekt an den Client zurück
@@ -29,16 +27,7 @@ public final class ServerMessager implements ServerReply {
 	 */
 
 	public void send(Serializable object) throws IOException, TimeoutException {
-		try {
-			serverProducer = new ServerProducer("flipagain");
-			serverProducer.sendMessage(object);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TimeoutException e) {
-			e.printStackTrace();
-		} finally {
-			serverProducer.close();
-		}
+	
 	}
 
 	/**
@@ -54,15 +43,6 @@ public final class ServerMessager implements ServerReply {
 
 	@Override
 	public void returnValidatedUser() {
-		consumerThread = new Thread(serverConsumer);
-		consumerThread.start();
-		
-		try {
-			consumerThread.sleep(3000);
-			
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} 
 
 	}
 
