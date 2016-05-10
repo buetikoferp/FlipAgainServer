@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
-import com.team.flipagain.server.domain.DBManager;
+import com.team.flipagain.domain.DBManager;
 
 public class DBManagerTest {
 	

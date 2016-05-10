@@ -1,4 +1,4 @@
-package com.team.flipagain.server.messaging;
+package com.team.flipagain.messaging;
 
 /**
  * Created by Philipp on 01.04.2016.
@@ -29,6 +29,8 @@ public abstract class EndPoint{
 
         //hostname of your rabbitmq server
         factory.setHost("localhost");
+        factory.setUsername("server");
+        factory.setPassword("server");
 
         //getting a connection
         connection = factory.newConnection();

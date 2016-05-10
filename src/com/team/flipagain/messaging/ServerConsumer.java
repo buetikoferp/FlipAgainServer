@@ -1,16 +1,16 @@
-package com.team.flipagain.server.messaging;
+package com.team.flipagain.messaging;
 
 /**
  * Created by Philipp on 01.04.2016.
  */
 
 import com.rabbitmq.client.AMQP.BasicProperties;
+import com.team.flipagain.application.ServerController;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
 
 import org.apache.commons.lang3.SerializationUtils;
-
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeoutException;
  * The endpoint that consumes messages off of the queue. Happens to be runnable.
   */
 public class ServerConsumer extends EndPoint implements Runnable, Consumer{
-    private ServerMessager serMes = new ServerMessager();
+    private ServerController serCon = new ServerController();
     public ServerConsumer(String endPointName) throws IOException, TimeoutException{
         super(endPointName);
     }
@@ -45,7 +45,7 @@ public class ServerConsumer extends EndPoint implements Runnable, Consumer{
      */
     public void handleDelivery(String consumerTag, Envelope env, BasicProperties props, byte[] body) throws IOException {
         Object object = (SerializationUtils.deserialize(body));
-        serMes.recieveObject(object);
+        serCon.recieveObject(object);
         System.out.println("Objekt erhalten");
 
 

@@ -1,4 +1,4 @@
-package com.team.flipagain.server.domain;
+package com.team.flipagain.domain;
 
 
 

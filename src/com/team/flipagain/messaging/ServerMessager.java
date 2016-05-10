@@ -1,14 +1,14 @@
-package com.team.flipagain.server.messaging;
+package com.team.flipagain.messaging;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.concurrent.TimeoutException;
 
-import com.team.flipagain.server.domain.Bundle;
-import com.team.flipagain.server.domain.FieldOfStudy;
-import com.team.flipagain.server.domain.Module;
-import com.team.flipagain.server.domain.User;
+import com.team.flipagain.domain.Bundle;
+import com.team.flipagain.domain.FieldOfStudy;
+import com.team.flipagain.domain.Module;
+import com.team.flipagain.domain.User;
 
 
 /**
