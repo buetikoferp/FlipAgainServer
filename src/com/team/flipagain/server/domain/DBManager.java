@@ -24,7 +24,7 @@ public class DBManager implements DomainInterface {
 	 */
 	private void startConnection() {
 		try {
-			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "Raffaele123");
+			conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/flipagain", "postgres", "flipagain");
 		} catch (SQLException e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
@@ -127,6 +127,7 @@ public class DBManager implements DomainInterface {
 
 			printResult(bundleList);
 		} catch (SQLException e) {
+			e.getMessage();
 			e.printStackTrace();
 		} finally {
 			conn.close();
@@ -152,5 +153,39 @@ public class DBManager implements DomainInterface {
 			}
 
 		}
+	}
+	/**
+	 * Liefert eine Liste von allen BundleNamen des übergebeben Moduls.
+	 * @throws SQLException 
+	 * 
+	 */
+	@Override
+	public ArrayList<String> getBundleListByName(String moduleName) throws SQLException {
+		int modulId = 0;
+		ArrayList<String> bundleList = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_modul WHERE modulname='" + moduleName + "'");
+			while (rs.next()) {
+				modulId = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.getMessage();
+			e.printStackTrace();
+
+			try {
+				stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_bundle WHERE modulId='" + modulId + "'");
+				while (rs.next()) {
+					bundleList.add(rs.getString(4));
+				}
+			} catch (SQLException q) {
+				q.getMessage();
+				q.printStackTrace();
+			}finally{
+				conn.close();
+			}
+		}
+		return bundleList;
 	}
 }
