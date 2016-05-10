@@ -45,7 +45,7 @@ public class ServerConsumer extends EndPoint implements Runnable, Consumer{
      */
     public void handleDelivery(String consumerTag, Envelope env, BasicProperties props, byte[] body) throws IOException {
         Object object = (SerializationUtils.deserialize(body));
-        serMes.recievedObject(object);
+        serMes.recieveObject(object);
         System.out.println("Objekt erhalten");
 
 

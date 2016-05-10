@@ -51,9 +51,9 @@ public final class ServerMessager implements ServerReply {
 	 * @param messageObject
 	 * @throws SQLException
 	 */
-	public void recievedObject(Object messageObject) {
+	public void recieveObject(Object messageObject) {
 		this.messageObject = messageObject;
-		Object o = messageObject;
+		Object o = messageObject;		
 	}
 
 	@Override
