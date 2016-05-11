@@ -17,14 +17,15 @@ import com.team.flipagain.messaging.ServerConsumer;
 public class FlipAgainServerMain {
 
 	public static void main(String args[]) {
-		ServerController sc = new ServerController();
+		ServerConsumer serverConsumer;
+		Thread consumerThread = new Thread();
 		try {
-			sc.startServerController();
+			serverConsumer = new ServerConsumer("flipagain");
+			consumerThread = new Thread(serverConsumer);
+			consumerThread.start();
 		} catch (IOException | TimeoutException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 

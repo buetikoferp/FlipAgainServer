@@ -3,6 +3,7 @@ package com.team.flipagain.messaging;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 import com.team.flipagain.domain.Bundle;
@@ -15,8 +16,7 @@ import com.team.flipagain.domain.User;
  * Created by Philipp on 01.04.2016.
  */
 public final class ServerMessager implements ServerReply {
-	@SuppressWarnings("unused")
-	private Object messageObject = null;
+	private Object messageObject;
 	private ServerProducer serverProducer;
 
 	/**
@@ -46,10 +46,6 @@ public final class ServerMessager implements ServerReply {
 	 */
 	public void recieveObject(Object messageObject) {
 		this.messageObject = messageObject;
-	}
-	
-	public Object getDeliveredObject(){
-		return messageObject;
 	}
 
 	@Override
@@ -102,5 +98,19 @@ public final class ServerMessager implements ServerReply {
 		} catch(TimeoutException e){
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void returnBundleList(ArrayList<Bundle> bundleList) {
+		try{
+			Serializable message = (Serializable) bundleList;
+			serverProducer = new ServerProducer("flipagain");
+			serverProducer.sendMessage(message);
+		}catch(IOException e){
+			e.printStackTrace();
+		} catch(TimeoutException e){
+			e.printStackTrace();
+		}
+		
 	}
 }

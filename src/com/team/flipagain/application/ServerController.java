@@ -1,48 +1,17 @@
 package com.team.flipagain.application;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.concurrent.TimeoutException;
-
+import java.util.ArrayList;
 import com.team.flipagain.domain.Bundle;
 import com.team.flipagain.domain.DBManager;
 import com.team.flipagain.domain.DomainInterface;
-import com.team.flipagain.domain.FieldOfStudy;
 import com.team.flipagain.domain.Module;
 import com.team.flipagain.domain.User;
-import com.team.flipagain.messaging.ServerConsumer;
 import com.team.flipagain.messaging.ServerMessager;
 
 public class ServerController {
-	private Object messageObject;
 	private ServerMessager serverMessager = new ServerMessager();
 	private DomainInterface doIn = new DBManager();
-	private Thread consumerThread;
-	private ServerConsumer serverConsumer;
-
-	public void startServerController() throws IOException, TimeoutException {
-		serverConsumer = new ServerConsumer("flipagain");
-		consumerThread = new Thread(serverConsumer);
-		consumerThread.start();
-		
-		checkDeliveredObject();
-		
-
-	}
-	public void checkDeliveredObject(){
-		while (true) {
-			if(serverMessager.getDeliveredObject()!= null){
-				recieveObject(serverMessager.getDeliveredObject());
-				
-			}
-			
-		}
-	}
-	public void validatedUser() throws SQLException {
-		User validatedUser = (User) messageObject;
-		validatedUser = doIn.validateUser(validatedUser);
-		serverMessager.returnValidatedUser(validatedUser);
-	}
 
 	/**
 	 * Übergibt das gesendete Objekt.
@@ -56,18 +25,29 @@ public class ServerController {
 			if (messageObject instanceof User) {
 				System.out.println("UserObjekt");
 				try {
-					validatedUser();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+
+					doIn.validateUser((User) messageObject);
+					serverMessager.returnValidatedUser((User) messageObject);
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
-			}
-			if (messageObject instanceof Bundle) {
+
+			} else if (messageObject instanceof Bundle) {
 				System.out.println("BundleObjekt");
-			}
-			if (messageObject instanceof Module) {
+				try {
+					doIn.getBundleByName(((Bundle) messageObject).getName());
+					serverMessager.returnBundlebyName((Bundle) messageObject);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else if (messageObject instanceof Module) {
 				System.out.println("ModuleObjekt");
+				try {
+					doIn.getBundleList((Module) messageObject);
+					serverMessager.returnBundleList((ArrayList<Bundle>) messageObject);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else {
 				System.out.println("FieldOfStudyObjekt");
 			}

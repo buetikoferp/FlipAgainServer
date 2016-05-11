@@ -9,7 +9,7 @@ public class Module implements Serializable{
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+
 	//ATTRIBUT
     private int moduleId;
     private String moduleName;

@@ -10,7 +10,7 @@ public class Card implements Serializable{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+
 	// ATTRIBUT
     private int cardId;
     private int userId;

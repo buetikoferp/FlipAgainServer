@@ -20,6 +20,7 @@ import java.util.concurrent.TimeoutException;
   */
 public class ServerConsumer extends EndPoint implements Runnable, Consumer{
 	
+	private ServerController sc = new ServerController();
 	private ServerMessager sm = new ServerMessager();
     public ServerConsumer(String endPointName) throws IOException, TimeoutException{
         super(endPointName);
