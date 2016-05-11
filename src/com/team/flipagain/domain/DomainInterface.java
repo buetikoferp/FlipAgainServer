@@ -23,10 +23,6 @@ public interface DomainInterface {
 
 	public ArrayList<String> getBundleListByName(String moduleName);
 	
+	public void insertNewBundle(Bundle bundle);
 	
-	
-	
-	
-	
-
 }

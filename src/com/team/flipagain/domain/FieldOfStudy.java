@@ -1,10 +1,16 @@
 package com.team.flipagain.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by delay on 30.03.2016.
  */
-public class FieldOfStudy {
-    //ATTRIBUTE
+public class FieldOfStudy implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//ATTRIBUTE
     private int studyID;
     private String name;
 

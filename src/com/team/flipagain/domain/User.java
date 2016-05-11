@@ -1,16 +1,24 @@
 package com.team.flipagain.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by Raffaele on 31.03.2016.
  */
-public class User {
+public class User implements Serializable{
 
-    private int userid;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int userid;
     private String username;
     private String password;
     private boolean isAuthorized = false;
+    private boolean isNewUser = false;
 
-    public User(String username, String password){
+    public User(int userid, String username, String password){
+    	this.userid = userid;
         this.username = username;
         this.password = password;
     }
@@ -46,5 +54,13 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+	public boolean isNewUser() {
+		return isNewUser;
+	}
+
+	public void setNewUser(boolean isNewUser) {
+		this.isNewUser = isNewUser;
+	}
 
 }

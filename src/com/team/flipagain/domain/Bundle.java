@@ -13,19 +13,37 @@ public class Bundle {
     private String name;
     private int userId;
     private ArrayList<Card> cardList;
+    private int moduleId;
 
-    public Bundle(int bundleId, String name , int userId){
+    public Bundle(int bundleId, String name , int userId, int moduleId){
         this.bundleId = bundleId;
         this.name = name;
         this.userId = userId;
         this.cardList = new ArrayList<>();
+        this.moduleId = moduleId;
     }
 
     
 
 
 
-    public int getBundleId() {
+    public int getModuleId() {
+		return moduleId;
+	}
+
+
+
+
+
+	public void setModuleId(int moduleId) {
+		this.moduleId = moduleId;
+	}
+
+
+
+
+
+	public int getBundleId() {
         return bundleId;
     }
 

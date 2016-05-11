@@ -48,7 +48,8 @@ public class DBManager implements DomainInterface {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_bundle WHERE bundleName=" + bundleName);
 			while (rs.next()) {
-				bundle = new Bundle(rs.getInt("bundleId"), rs.getString("bundleName"), rs.getInt("userId"));
+				bundle = new Bundle(rs.getInt("bundleId"), rs.getString("bundleName"), rs.getInt("userId"),
+						rs.getInt("moduleId"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,13 +60,26 @@ public class DBManager implements DomainInterface {
 	/**
 	 * Fragt die Datenbank nach dem übergebenen User-Objekt ab und setzt
 	 * isAuthorized() auf true, sofern die Logindaten übereinstimmen.
+	 * Legt ein neues Benutzerobjekt an, sofern isNewUser() = true.
 	 * 
 	 * @throws SQLException
 	 */
 	@Override
-	public User validateUser(User user){
+	public User validateUser(User user) {
 		String username = user.getUsername();
 		String password = user.getPassword();
+		if (user.isNewUser()) {
+			try {
+				stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery("INSERT INTO tbl_user (userid, username, password) VALUES('"
+						+ user.getUserid() + "', '" + user.getUsername() + "', '" + user.getPassword() + "')");
+				return user;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
 		try {
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_user");
@@ -92,7 +106,7 @@ public class DBManager implements DomainInterface {
 	 * @throws SQLException
 	 */
 	@Override
-	public ArrayList<Bundle> getBundleList(Module module){
+	public ArrayList<Bundle> getBundleList(Module module) {
 		int modulID = module.getModuleId();
 		Bundle bundle;
 		Card card;
@@ -105,7 +119,8 @@ public class DBManager implements DomainInterface {
 			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulid= '" + modulID + "'");
 
 			while (rs.next()) {
-				bundle = new Bundle(rs.getInt("bundleid"), rs.getString("bundlename"), rs.getInt("userid"));
+				bundle = new Bundle(rs.getInt("bundleid"), rs.getString("bundlename"), rs.getInt("userid"),
+						rs.getInt("moduleId"));
 				bundleList.add(bundle);
 
 				System.out.println(bundle.getName());
@@ -131,7 +146,7 @@ public class DBManager implements DomainInterface {
 
 		return bundleList;
 	}
-	
+
 	/**
 	 * 
 	 * @param bundleList
@@ -150,13 +165,15 @@ public class DBManager implements DomainInterface {
 
 		}
 	}
+
 	/**
 	 * Liefert eine Liste von allen BundleNamen des übergebeben Moduls.
-	 * @throws SQLException 
+	 * 
+	 * @throws SQLException
 	 * 
 	 */
 	@Override
-	public ArrayList<String> getBundleListByName(String moduleName){
+	public ArrayList<String> getBundleListByName(String moduleName) {
 		int modulId = 0;
 		ArrayList<String> bundleList = new ArrayList<>();
 		try {
@@ -181,5 +198,24 @@ public class DBManager implements DomainInterface {
 			}
 		}
 		return bundleList;
+	}
+
+	@Override
+	public void insertNewBundle(Bundle bundle) {
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("INSERT INTO tbl_bundle (bundleid, userid, modulid, bundlename) VALUES('"
+					+ bundle.getBundleId() + "', '" + bundle.getUserId() + "', '" + bundle.getModuleId() + "', '"
+					+ bundle.getName() + "')");
+			for (Card c : bundle.getCardList()) {
+				stmt2 = conn.createStatement();
+				ResultSet rs2 = stmt2
+						.executeQuery("INSERT INTO tbl_card (cardid, userid, question, answer, bundleid ) VALUES('"
+								+ c.getCardId() + "', '" + c.getUserId() + "', '" + c.getQuestion() + "', '"
+								+ c.getAnswer() + "', '" + c.getBundleId() + "')");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

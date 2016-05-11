@@ -16,7 +16,7 @@ import com.team.flipagain.domain.User;
  */
 public final class ServerMessager implements ServerReply {
 	@SuppressWarnings("unused")
-	private Object messageObject;
+	private Object messageObject = null;
 	private ServerProducer serverProducer;
 
 	/**
@@ -46,6 +46,10 @@ public final class ServerMessager implements ServerReply {
 	 */
 	public void recieveObject(Object messageObject) {
 		this.messageObject = messageObject;
+	}
+	
+	public Object getDeliveredObject(){
+		return messageObject;
 	}
 
 	@Override

@@ -1,12 +1,17 @@
 package com.team.flipagain.domain;
 
-
+import java.io.Serializable;
 
 /**
  * Created by Raffaele on 23.03.2016.
  */
-public class Card {
-    // ATTRIBUT
+public class Card implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// ATTRIBUT
     private int cardId;
     private int userId;
     private String question;
@@ -50,4 +55,27 @@ public class Card {
     public int getRating() {
         return rating;
     }
+    public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
+	}
+
+	public void setQuestion(String question) {
+		this.question = question;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 }

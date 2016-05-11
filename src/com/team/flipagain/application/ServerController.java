@@ -24,9 +24,20 @@ public class ServerController {
 		serverConsumer = new ServerConsumer("flipagain");
 		consumerThread = new Thread(serverConsumer);
 		consumerThread.start();
+		
+		checkDeliveredObject();
+		
 
 	}
-
+	public void checkDeliveredObject(){
+		while (true) {
+			if(serverMessager.getDeliveredObject()!= null){
+				recieveObject(serverMessager.getDeliveredObject());
+				
+			}
+			
+		}
+	}
 	public void validatedUser() throws SQLException {
 		User validatedUser = (User) messageObject;
 		validatedUser = doIn.validateUser(validatedUser);
@@ -40,7 +51,7 @@ public class ServerController {
 	 * @throws SQLException
 	 */
 	public void recieveObject(Object messageObject) {
-
+		System.out.println("Hallo, bis da ane und ned wiiter");
 		if (messageObject != null) {
 			if (messageObject instanceof User) {
 				System.out.println("UserObjekt");

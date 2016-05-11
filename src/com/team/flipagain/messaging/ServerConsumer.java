@@ -19,7 +19,8 @@ import java.util.concurrent.TimeoutException;
  * The endpoint that consumes messages off of the queue. Happens to be runnable.
   */
 public class ServerConsumer extends EndPoint implements Runnable, Consumer{
-    private ServerController serCon = new ServerController();
+	
+	private ServerMessager sm = new ServerMessager();
     public ServerConsumer(String endPointName) throws IOException, TimeoutException{
         super(endPointName);
     }
@@ -45,13 +46,11 @@ public class ServerConsumer extends EndPoint implements Runnable, Consumer{
      */
     public void handleDelivery(String consumerTag, Envelope env, BasicProperties props, byte[] body) throws IOException {
         Object object = (SerializationUtils.deserialize(body));
-        serCon.recieveObject(object);
+        sm.recieveObject(object);
         System.out.println("Objekt erhalten");
 
 
     }
-
-
 
     public void handleCancel(String consumerTag) {}
     public void handleCancelOk(String consumerTag) {}
