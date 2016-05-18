@@ -113,4 +113,18 @@ public final class ServerMessager implements ServerReply {
 		}
 		
 	}
+
+	@Override
+	public void synchronize(User u) {
+		try{
+			Serializable message = (Serializable) u.getPersonalBundleList();
+			serverProducer = new ServerProducer("flipagain");
+			serverProducer.sendMessage(message);
+		}catch(IOException e){
+			e.printStackTrace();
+		} catch(TimeoutException e){
+			e.printStackTrace();
+		}
+		
+	}
 }

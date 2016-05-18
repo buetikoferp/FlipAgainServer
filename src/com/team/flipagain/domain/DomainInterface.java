@@ -25,4 +25,13 @@ public interface DomainInterface {
 	
 	public void insertNewBundle(Bundle bundle);
 	
+	
+	
+	/**
+	 * Übergibt ein Liste aller Bundles des einloggenden Users
+	 * @param user
+	 * @return personalBundles
+	 */
+	public ArrayList<Bundle> getPersonalBundles(User user);
+	
 }

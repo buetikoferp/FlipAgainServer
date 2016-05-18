@@ -14,5 +14,6 @@ public interface ServerReply {
 	public void returnFoS(FieldOfStudy fos);
 	public void returnModule(Module module);
 	public void returnBundleList(ArrayList<Bundle> bundleList);
+	public void synchronize(User user);
 
 }

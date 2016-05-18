@@ -72,10 +72,9 @@ public class DBManager implements DomainInterface {
 			try {
 				stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery("INSERT INTO tbl_user (userid, username, password) VALUES('"
-						+ user.getUserid() + "', '" + user.getUsername() + "', '" + user.getPassword() + "')");
+						+ user.getUserId() + "', '" + user.getUsername() + "', '" + user.getPassword() + "')");
 				return user;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -101,7 +100,7 @@ public class DBManager implements DomainInterface {
 
 	/**
 	 * Filtert die Datenbank nach dem übergebenen Modul und füllt die Treffer in
-	 * eine ArrayList ab
+	 * eine ArrayList ab.
 	 * 
 	 * @throws SQLException
 	 */
@@ -126,14 +125,17 @@ public class DBManager implements DomainInterface {
 				System.out.println(bundle.getName());
 				ResultSet rsCard = stmt2
 						.executeQuery("SELECT * FROM tbl_Card where bundleid='" + bundle.getBundleId() + "'");
+				
+				
 				for (Bundle b : bundleList) {
-					while (rsCard.next()) {
-
-						card = new Card(rsCard.getInt("cardid"), rsCard.getInt("userid"), rsCard.getString("question"),
-								rsCard.getString("answer"), rsCard.getInt("bundleid"));
-						System.out.println(card.getQuestion() + " | Antwort: " + card.getAnswer());
-						b.getCardList().add(card);
-					}
+					b.setCardList(getCardsOfBundle(b));
+					
+//					while (rsCard.next()) {
+//
+//						card = new Card(rsCard.getInt("cardid"), rsCard.getInt("userid"), rsCard.getString("question"),
+//								rsCard.getString("answer"), rsCard.getInt("bundleid"));
+						
+//					}
 				}
 
 			}
@@ -143,7 +145,7 @@ public class DBManager implements DomainInterface {
 			e.getMessage();
 			e.printStackTrace();
 		}
-
+		
 		return bundleList;
 	}
 
@@ -215,7 +217,96 @@ public class DBManager implements DomainInterface {
 								+ c.getAnswer() + "', '" + c.getBundleId() + "')");
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();;
+			
+			
+		}
+	}
+
+	@Override
+	public ArrayList<Bundle> getPersonalBundles(User user) {
+		// TODO Auto-generated method stub
+		int userId = user.getUserId();
+		ArrayList<Bundle> personalBundleList = new ArrayList<>();
+		
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_bundle WHERE userid = '"+userId+"';");
+			
+			while (rs.next()) {
+				Bundle bundle = new Bundle(rs.getInt(0), rs.getString(1), rs.getInt(2), rs.getInt(3));
+				bundle.setCardList(getCardsOfBundle(bundle));
+				personalBundleList.add(bundle);
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return personalBundleList;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param bundle
+	 * @return
+	 */
+	private ArrayList<Card> getCardsOfBundle(Bundle bundle){
+		int bundleId = bundle.getBundleId();
+		ArrayList<Card> cardOfBundleList = new ArrayList<>();
+		try {
+			Statement cStmt = conn.createStatement();
+			ResultSet rs = cStmt.executeQuery("SELECT * FROM tbl_card WHERE bundleid = '"+bundleId+"';");
+			
+			while (rs.next()) {
+				Card card = new Card(rs.getInt(0), rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+				cardOfBundleList.add(card);
+				
+				System.out.println("card ID: "+card.getCardId()+" | user ID: "+card.getUserId() +" | bundle ID: "+card.getBundleId());
+				System.out.println("Frage: "+card.getQuestion());
+				System.out.println("Antwort: "+card.getAnswer());
+				System.out.println("----..::"+card.getRating()+"::..----");
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		
+		return cardOfBundleList;
+		
+	}
+	
+	public void synchronization(User u){
+		ArrayList<Bundle> bundleList = u.getPersonalBundleList();
+		ArrayList<Card> cardsOfBundleList;
+		
+		try {
+			updateBundles(bundleList);
+			for(Bundle b : bundleList){
+				cardsOfBundleList = b.getCardList();
+				updateCards(cardsOfBundleList);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	private void updateCards(ArrayList<Card> cardListOfBundle) throws SQLException{
+		Statement updateCardStmt = conn.createStatement();
+		for (Card c : cardListOfBundle) {
+			updateCardStmt.executeQuery("UPDATE tbl_card SET cardid = '"+c.getCardId()+"', userid = '"+c.getUserId()+"', question = '"+c.getQuestion()+"' , answer = '"+c.getQuestion()+"' WHERE bundleid = '"+c.getBundleId()+"';");
+		}
+	}
+	
+	private void updateBundles(ArrayList<Bundle> bundleList) throws SQLException{
+		Statement updateCardStmt = conn.createStatement();
+		for (Bundle b : bundleList) {
+			updateCardStmt.executeQuery("UPDATE tbl_bundle SET bundleid = '"+b.getBundleId()+"', modulid = '"+b.getModuleId()+"' , bundlename = '"+b.getName()+"' WHERE userid = '"+b.getUserId()+"';");
 		}
 	}
 }

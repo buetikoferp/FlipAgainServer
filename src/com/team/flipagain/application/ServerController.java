@@ -28,6 +28,9 @@ public class ServerController {
 
 					doIn.validateUser((User) messageObject);
 					serverMessager.returnValidatedUser((User) messageObject);
+					if(((User) messageObject).isAuthorized()){
+						
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
