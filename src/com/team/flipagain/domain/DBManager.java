@@ -106,7 +106,7 @@ public class DBManager implements DomainInterface {
 	 */
 	@Override
 	public ArrayList<Bundle> getBundleList(Module module) {
-		int modulID = module.getModuleId();
+		String modulename = module.getModuleName();
 		Bundle bundle;
 		Card card;
 		ArrayList<Bundle> bundleList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class DBManager implements DomainInterface {
 			stmt = conn.createStatement();
 			stmt2 = conn.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulid= '" + modulID + "'");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_Bundle WHERE modulename= '" + modulename + "'");
 
 			while (rs.next()) {
 				bundle = new Bundle(rs.getInt("bundleid"), rs.getString("bundlename"), rs.getInt("userid"),
@@ -168,39 +168,7 @@ public class DBManager implements DomainInterface {
 		}
 	}
 
-	/**
-	 * Liefert eine Liste von allen BundleNamen des übergebeben Moduls.
-	 * 
-	 * @throws SQLException
-	 * 
-	 */
-	@Override
-	public ArrayList<String> getBundleListByName(String moduleName) {
-		int modulId = 0;
-		ArrayList<String> bundleList = new ArrayList<>();
-		try {
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_modul WHERE modulname='" + moduleName + "'");
-			while (rs.next()) {
-				modulId = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.getMessage();
-			e.printStackTrace();
-
-			try {
-				stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT * FROM tbl_bundle WHERE modulId='" + modulId + "'");
-				while (rs.next()) {
-					bundleList.add(rs.getString(4));
-				}
-			} catch (SQLException q) {
-				q.getMessage();
-				q.printStackTrace();
-			}
-		}
-		return bundleList;
-	}
+	
 
 	@Override
 	public void insertNewBundle(Bundle bundle) {

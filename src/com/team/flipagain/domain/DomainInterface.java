@@ -21,8 +21,6 @@ public interface DomainInterface {
 
 	public ArrayList<Bundle> getBundleList(Module modul);
 
-	public ArrayList<String> getBundleListByName(String moduleName);
-	
 	public void insertNewBundle(Bundle bundle);
 	
 	
